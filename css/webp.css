@@ -1,0 +1,32 @@
+.no-webp .intro-header {
+        background-image: url('/img/aurora-borealis-1920p.jpg');
+}
+
+.webp .intro-header {
+    
+    
+    
+        background-image: url('/img/aurora-borealis-1920p.webp');
+    
+}
+
+.no-js .intro-header {
+        background-image: url('/img/aurora-borealis-1920p.jpg');
+}
+
+
+.no-webp .intro-header-404 {
+        background-image: url('/img/last-jedi-rey-mirror-cave-tall.jpg');
+}
+
+.webp .intro-header-404 {
+    
+    
+    
+        background-image: url('/img/last-jedi-rey-mirror-cave-tall.webp');
+    
+}
+
+.no-js .intro-header-404 {
+        background-image: url('/img/last-jedi-rey-mirror-cave-tall.jpg');
+}
