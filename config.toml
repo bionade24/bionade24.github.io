@@ -1,0 +1,80 @@
+baseURL = "https://www.oskar-roesler.de"
+languageCode = "en"
+title = "Oskar's Blog"
+theme = "hugo-theme-cleanwhite"
+disqusShortname = "bionade24"
+googleAnalytics = ""
+preserveTaxonomyNames = true
+paginate = 5 #frontpage pagination
+hasCJKLanguage = true
+
+[outputs]
+home = ["HTML", "RSS", "Algolia"]
+
+[params]
+  header_image = "img/aurora-borealis-1920p.jpg"
+  SEOTitle = "Oskar Roesler's Blog"
+  description = "FOSS Development, Robotics, Sailfish and other things that come to my mind"
+  keyword = "Oskar, Roesler, RoboCup, ROS, Open Source"
+  slogan =  ""
+  image_404 = "img/last-jedi-rey-mirror-cave-tall.jpg"
+  title_404 = "Site not found :("
+
+  # leancloud storage for page view counter
+  page_view_conter = false
+  leancloud_app_id = ""
+  leancloud_app_key = ""
+
+  # algolia site search
+  algolia_search = true
+  algolia_appId = "LDZK883BKS"
+  algolia_indexName = "www.oskar-roesler.de"
+  algolia_apiKey = "d12bc19b76dd001b8667941ff231fe27"
+
+  # Sidebar settings
+  sidebar_about_description = "FOSS Development, Robotics and Saifish OS"
+  sidebar_avatar = "img/oskar.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+  featured_tags = true
+  featured_condition_size = 1
+
+  friends = false
+  bookmarks = true
+  about_me = true
+
+  #custom_css = ["css/webp.css"]
+  custom_js = ["js/modernizer-webp.js"]
+
+  [params.social]
+  rss            = true
+  email          = "oskar@oskar-roesler.de"
+  stackoverflow  = "https://stackoverflow.com/users/10849666"
+  github         = "https://github.com/bionade24"
+  reddit         = "https://reddit.com/user/bionade24"
+  gitlab         = "https://gitlab.com/bionade24"
+  mastodon       = "https://mastodon.social/@bionade24"
+  git            = "https://git.oscloud.info/bionade24"
+
+  #left side suggestions/links
+  [[params.friend_link]]
+  title = "CJTRobotics"
+  href =  "https://cjtrobotics.de"
+
+  [[params.bookmark_link]]
+  title =  "CJTRobotics"
+  href =  "https://cjtrobotics.de"
+
+  #Additional menus
+  [[params.addtional_menus]]
+  title =  "ABOUT"
+  href =  "/top/about/"
+
+[outputFormats.Algolia]
+baseName = "algolia"
+isPlainText = true
+mediaType = "application/json"
+notAlternative = true
+
+[params.algolia]
+vars = ["title", "summary", "date", "publishdate", "expirydate", "permalink"]
+params = ["categories", "tags"]

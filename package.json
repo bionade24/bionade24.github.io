@@ -1,0 +1,23 @@
+{
+  "name": "www.oskar-roesler.de",
+  "version": "1.0.0",
+  "description": "Oskar Roesler's Blog",
+  "main": "index.js",
+  "scripts": {
+    "algolia": "atomic-algolia",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.oscloud.info/bionade24/oskar-roesler.de.git"
+  },
+  "author": "Oskar Roesler",
+  "license": "ISC",
+  "keywords": [
+    "oskar",
+    "roesler"
+  ],
+  "dependencies": {
+    "atomic-algolia": "^0.3.17"
+  }
+}
