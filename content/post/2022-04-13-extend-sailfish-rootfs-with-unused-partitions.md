@@ -12,7 +12,7 @@ categories:  ["Tech" ]
 The intial problem
 -
 
-To update to the latest SailfishOS, you'll need a bit over 500MB free space. Shouldn't be a problem oon a modern phone, should it? Well, for whatever reason Jolla gives the rootfs only 2.5Gb of space and adresses the rest to the home partition. So when you've installed a few more apps, you'll sooner or later run out of space. You could remove a bunch of apps and try to install them again after the update, but you'll face the same problem with the next update again. Shrinking the home logical volume (if you have no idea what that is, think of it as of a partition) will result in a broken LUKS container, so that's not possible since encryption was added, don't try that anymore!
+To update to the latest SailfishOS, you'll need a bit over 500MB free space. Shouldn't be a problem oon a modern phone, should it? Well, for whatever reason Jolla gives the rootfs only 2.5Gb of space and adresses the rest to the home partition. So when you've installed a few more apps, you'll sooner or later run out of space. You could remove a bunch of apps and try to install them again after the update, but you'll face the same problem with the next update again. Shrinking the home logical volume would be an option, but maybe we also run low on space on this partition.
 
 Luckily, most Sailfish X devices have partitions left over from Android completely unused. So let's use them.
 
