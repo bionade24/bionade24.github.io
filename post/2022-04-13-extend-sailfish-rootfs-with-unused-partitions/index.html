@@ -8,17 +8,17 @@
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://www.oskar-roesler.de/img/aurora-borealis-1920p.jpg">
 <meta property="twitter:image" content="https://www.oskar-roesler.de/img/aurora-borealis-1920p.jpg">
-<meta name=title content>
-<meta property="og:title" content>
-<meta property="twitter:title" content>
-<meta name=description content="FOSS Development, Robotics, Sailfish and other things that come to my mind">
-<meta property="og:description" content="FOSS Development, Robotics, Sailfish and other things that come to my mind">
-<meta property="twitter:description" content="FOSS Development, Robotics, Sailfish and other things that come to my mind">
+<meta name=title content="Extend SailfishOS rootfs with a hidden, unused partition.">
+<meta property="og:title" content="Extend SailfishOS rootfs with a hidden, unused partition.">
+<meta property="twitter:title" content="Extend SailfishOS rootfs with a hidden, unused partition.">
+<meta name=description content="How to guide to extend the rootfs' logical volume with an unused Android partition.">
+<meta property="og:description" content="How to guide to extend the rootfs' logical volume with an unused Android partition.">
+<meta property="twitter:description" content="How to guide to extend the rootfs' logical volume with an unused Android partition.">
 <meta property="twitter:card" content="summary">
 <meta name=keyword content="Oskar, Roesler, RoboCup, ROS, Open Source">
 <link rel="shortcut icon" href=/img/favicon.ico>
-<title>Oskar Roesler's Blog</title>
-<link rel=canonical href=/top/about/>
+<title>Extend SailfishOS rootfs with a hidden, unused partition.-Oskar Roesler's Blog</title>
+<link rel=canonical href=/post/2022-04-13-extend-sailfish-rootfs-with-unused-partitions/>
 <link rel=stylesheet href=/css/iDisqus.min.css>
 <link rel=stylesheet href=/css/bootstrap.min.css>
 <link rel=stylesheet href=/css/hux-blog.min.css>
@@ -60,13 +60,34 @@
 </div>
 </nav>
 <script>var $body=document.body,$toggle=document.querySelector('.navbar-toggle'),$navbar=document.querySelector('#huxblog_navbar'),$collapse=document.querySelector('.navbar-collapse');$toggle.addEventListener('click',handleMagic);function handleMagic(a){$navbar.className.indexOf('in')>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf('in')<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script>
+<style type=text/css>header.intro-header{background-image:url(/img/aurora-borealis-1920p.jpg)}</style>
 <header class=intro-header>
 <div class=container>
 <div class=row>
 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<div class=site-heading>
-<h1>Oskar's Blog </h1>
-<span class=subheading></span>
+<div class=post-heading>
+<div class=tags>
+<a class=tag href=/tags/sailfishos title=SailfishOS>
+SailfishOS
+</a>
+<a class=tag href=/tags/xperia title=Xperia>
+Xperia
+</a>
+<a class=tag href=/tags/android title=Android>
+Android
+</a>
+<a class=tag href=/tags/smartphone title=Smartphone>
+Smartphone
+</a>
+</div>
+<h1>Extend SailfishOS rootfs with a hidden, unused partition.</h1>
+<h2 class=subheading>The best way to get space when you can't install an OS update.</h2>
+<span class=meta>
+Posted by
+    "Oskar Roesler"
+on
+Wednesday, April 13, 2022
+</span>
 </div>
 </div>
 </div>
@@ -78,13 +99,52 @@
 <div class="col-lg-11 col-lg-offset-1
 col-md-10 col-md-offset-1
 post-container">
-<p>
-<picture>
-<source srcset=/img/oskar.webp type=image/webp width=240>
-<img src=/img/oskar.jpg alt loading=lazy decoding=async width=240>
-</picture>
-<br>
-Hello, I&rsquo;m Oskar and I&rsquo;m 19 years old.</p>
+<header>
+<h2>Table of contents</h2>
+</header>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#the-intial-problem>The intial problem</a></li>
+<li><a href=#but-does-this-work-on-all-sailfishos-devices>But does this work on all SailfishOS devices?</a></li>
+<li><a href=#preperations>Preperations</a></li>
+<li><a href=#lets-do-it>Let&rsquo;s do it.</a>
+<ul>
+<li><a href=#add-the-partition-to-lvm>Add the partition to LVM</a></li>
+<li><a href=#extend-the-sailfish-root-filesystem>Extend the sailfish root filesystem</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+<h2 id=the-intial-problem>The intial problem</h2>
+<p>To update to the latest SailfishOS, you&rsquo;ll need a bit over 500MB free space. Shouldn&rsquo;t be a problem oon a modern phone, should it? Well, for whatever reason Jolla gives the rootfs only 2.5Gb of space and adresses the rest to the home partition. So when you&rsquo;ve installed a few more apps, you&rsquo;ll sooner or later run out of space. You could remove a bunch of apps and try to install them again after the update, but you&rsquo;ll face the same problem with the next update again. Shrinking the home logical volume (if you have no idea what that is, think of it as of a partition) will result in a broken LUKS container, so that&rsquo;s not possible since encryption was added, don&rsquo;t try that anymore!</p>
+<p>Luckily, most Sailfish X devices have partitions left over from Android completely unused. So let&rsquo;s use them.</p>
+<h2 id=but-does-this-work-on-all-sailfishos-devices>But does this work on all SailfishOS devices?</h2>
+<p>No, it doesn&rsquo;t. If your phone only has a <code>/dev/disk/by-partlabel/system</code> partition. If it has unused spaces, you could shrink it and create another partition to do the same, but I don&rsquo;t know for sure. If your system has a <code>/dev/disk/by-partlabel/system_a</code> and a <code>/dev/disk/by-partlabel/system_b</code>, this guide will work one by one for you. For example, the Xperia X has only a <code>system</code> partition and the Xperia XA2 does have a <code>system_a</code> and a <code>system_b</code> partition. so it won&rsquo;t work on the X but will work on the XA2. I don&rsquo;t know how it&rsquo;s on newer devices, if you find out, please let me know.</p>
+<p>Additionally, you wont&rsquo;t be able to reflash SailfishOS without reflashing Android first. I&rsquo;ll release a blogpost how you can do that without having to install Windows and the Sony EMMA tool soon.</p>
+<h2 id=preperations>Preperations</h2>
+<p>As always, it&rsquo;s good to have a backup first, in case you miss up somehow anyway. Since SailfishOS is effectively Linux, I&rsquo;m using <a href=https://restic.org>restic</a>, but you can use whatever tool you like. Additionally, you need shell access on yuour Sailfish device which you get by enabling the development mode, but that&rsquo;s it.</p>
+<h2 id=lets-do-it>Let&rsquo;s do it.</h2>
+<p>First of all, change to root user, which is reuquired for all operations. Do that by entering <code>devel-su</code> in the command line. Afterwards, you&rsquo;ll need to enter your root password, which is changable in the same place as where the development mode can be activated.</p>
+<h3 id=add-the-partition-to-lvm>Add the partition to LVM</h3>
+<p>To start, you have to add <code>/dev/disk/by-partlabel/system_a</code> to the <a href=https://wiki.archlinux.org/title/LVM>Logical Volume Manager</a>.</p>
+<ol>
+<li>Enter <code>pvcreate /dev/disk/by-partlabel/system_a</code> to prepare the partition for LVM.</li>
+<li>Secondly, type <code>vgextend sailfish /dev/disk/by-partlabel/system_a</code> to add the partition to the <code>sailfish</code> volume group.</li>
+</ol>
+<h3 id=extend-the-sailfish-root-filesystem>Extend the sailfish root filesystem</h3>
+<p>Now, the space of the sailfish volume group is extended by the size of the <code>system_a</code> partition and we can continue with adding the new free space of the volume group to the root volume.</p>
+<ol>
+<li>This is done with <code>lvextend sailfish/root -l +100%Free</code>, which tells LVM to assign all free space in the <code>sailfish</code> volume group to the <code>root</code> volume.</li>
+<li>In the end, we resize the root filesystem to the new size of the <code>root</code> volume by entering <code>resize2fs /dev/mapper/sailfish-root</code>. This can be done while the filesystem is mounted, which is a nice feature of ext4.</li>
+</ol>
+<p>Now you can proceed with installing apps or starting the system update!</p>
+<hr>
+<ul class=pager>
+<li class=previous>
+<a href=/2019/06/14/hello-world/ data-toggle=tooltip data-placement=top title="My first blog post">&larr;
+Previous Post</a>
+</li>
+</ul>
 <div id=disqus-comment></div>
 <div id=disqus_thread></div>
 <script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//bionade24.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
