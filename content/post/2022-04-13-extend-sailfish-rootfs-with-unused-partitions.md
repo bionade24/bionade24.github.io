@@ -27,7 +27,7 @@ Additionally, you wont't be able to reflash SailfishOS without reflashing Androi
 Preperations
 -
 
-As always, it's good to have a backup first, in case you miss up somehow anyway. Since SailfishOS is effectively Linux, I'm using [restic](https://restic.org), but you can use whatever tool you like. Additionally, you need shell access on yuour Sailfish device which you get by enabling the development mode, but that's it.
+As always, it's good to have a backup first, in case you miss up somehow anyway. Since SailfishOS is effectively Linux, I'm using [restic](https://restic.org), but you can use whatever tool you like. Additionally, you need shell access on your Sailfish device which you get by enabling the development mode, but that's it.
 
 
 Let's do it.
