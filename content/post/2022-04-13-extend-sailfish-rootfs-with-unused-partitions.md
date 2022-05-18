@@ -9,12 +9,12 @@ tags:        ["SailfishOS", "Xperia", "Android", "Smartphone"]
 categories:  ["Tech" ]
 ---
 
-The intial problem
+The initial problem
 -
 
-To update to the latest SailfishOS, you'll need a bit over 500MB free space. Shouldn't be a problem oon a modern phone, should it? Well, for whatever reason Jolla gives the rootfs only 2.5Gb of space and adresses the rest to the home partition. So when you've installed a few more apps, you'll sooner or later run out of space. You could remove a bunch of apps and try to install them again after the update, but you'll face the same problem with the next update again. Shrinking the home logical volume would be an option, but maybe we also run low on space on this partition.
+To update to the latest SailfishOS, you'll need a bit over 500MB free space. Shouldn't be a problem on a modern phone, should it? Well, for whatever reason Jolla gives the rootfs only 2.5Gb of space and addresses the rest to the home partition. So when you've installed a few more apps, you'll sooner or later run out of space. You could remove a bunch of apps and try to install them again after the update, but you'll face the same problem with the next update again. Shrinking the home logical volume would be an option, but maybe we also run low on space on this partition.
 
-Luckily, most Sailfish X devices have a partition left over from Android which is completely unused. Newer Android phones have partitions labled `system_a` and `system_b`, which were used by deliver OS updates as full partitions without overwriting the used one. On next reboot, Android just switches the partition to boot from. SailfishOS only uses `system_b`, as it doesn't provide kernel updates.  So let's use `system_a` instead of wasting its space.
+Luckily, most Sailfish X devices have a partition left over from Android which is completely unused. Newer Android phones have partitions labelled `system_a` and `system_b`, which were used by deliver OS updates as full partitions without overwriting the used one. On next reboot, Android just switches the partition to boot from. SailfishOS only uses `system_b`, as it doesn't provide kernel updates.  So let's use `system_a` instead of wasting its space.
 
 
 But does this work on all SailfishOS devices?
@@ -22,9 +22,9 @@ But does this work on all SailfishOS devices?
 
 No, it doesn't. If your phone only has a `/dev/disk/by-partlabel/system` partition. If it has unused spaces, you could shrink it and create another partition to do the same, but I don't know for sure. If your system has a `/dev/disk/by-partlabel/system_a` and a `/dev/disk/by-partlabel/system_b`, this guide will work one by one for you. For example, the Xperia X has only a `system` partition and the Xperia XA2 does have a `system_a` and a `system_b` partition. so it won't work on the X but will work on the XA2. I don't know how it's on newer devices, if you find out, please let me know.
 
-Additionally, you wont't be able to reflash SailfishOS without reflashing Android first. I'll release a blogpost how you can do that without having to install Windows and the Sony EMMA tool soon. Updating SailfishOS without reflashing it is absolutely fine.
+Additionally, you won't be able to reflash SailfishOS without reflashing Android first. I'll release a blogpost how you can do that without having to install Windows and the Sony EMMA tool soon. Updating SailfishOS without reflashing it is absolutely fine.
 
-Preperations
+Preparations
 -
 
 As always, it's good to have a backup first, in case you miss up somehow anyway. Since SailfishOS is effectively Linux, I'm using [restic](https://restic.org), but you can use whatever tool you like. Additionally, you need shell access on your Sailfish device which you get by enabling the development mode, but that's it.
@@ -33,7 +33,7 @@ As always, it's good to have a backup first, in case you miss up somehow anyway.
 Let's do it.
 -
 
-First of all, change to root user, which is reuquired for all operations. Do that by entering `devel-su` in the command line. Afterwards, you'll need to enter your root password, which is changable in the same place as where the development mode can be activated.
+First of all, change to root user, which is required for all operations. Do that by entering `devel-su` in the command line. Afterwards, you'll need to enter your root password, which is changeable in the same place as where the development mode can be activated.
 
 
 ### Add the partition to LVM ###
