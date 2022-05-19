@@ -131,6 +131,9 @@ post-container">
 <li>Enter <code>pvcreate /dev/disk/by-partlabel/system_a</code> to prepare the partition for LVM.</li>
 <li>Secondly, type <code>vgextend sailfish /dev/disk/by-partlabel/system_a</code> to add the partition to the <code>sailfish</code> volume group.</li>
 </ol>
+<p>If you get messages similar to this:</p>
+<pre tabindex=0><code>/dev/mmcblk0rpmb: read failed after 0 of 4096 at 4186112: Input/output error
+</code></pre><p>Don&rsquo;t worry. <code>mmcblk0rpmb</code> stands for <em>Replay Protected Memory Block</em>, which is a security storage feature of Android not used by SailfishOS. When the programs you just executed scan all partitions, they won&rsquo;t be able to read this secure storage, hence the error message.</p>
 <h3 id=extend-the-sailfish-root-filesystem>Extend the sailfish root filesystem</h3>
 <p>Now, the space of the sailfish volume group is extended by the size of the <code>system_a</code> partition and we can continue with adding the new free space of the volume group to the root volume.</p>
 <ol>
