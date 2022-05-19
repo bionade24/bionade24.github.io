@@ -42,6 +42,13 @@ To start, you have to add `/dev/disk/by-partlabel/system_a` to the [Logical Volu
 1. Enter `pvcreate /dev/disk/by-partlabel/system_a` to prepare the partition for LVM.
 2. Secondly, type `vgextend sailfish /dev/disk/by-partlabel/system_a` to add the partition to the `sailfish` volume group.
 
+
+If you get messages similar to this:
+```
+/dev/mmcblk0rpmb: read failed after 0 of 4096 at 4186112: Input/output error
+```
+Don't worry. `mmcblk0rpmb` stands for _Replay Protected Memory Block_, which is a security storage feature of Android not used by SailfishOS. When the programs you just executed scan all partitions, they won't be able to read this secure storage, hence the error message.
+
 ### Extend the sailfish root filesystem ##
 
 Now, the space of the sailfish volume group is extended by the size of the `system_a` partition and we can continue with adding the new free space of the volume group to the root volume.
