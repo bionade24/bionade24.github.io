@@ -50,19 +50,16 @@ home = ["HTML", "RSS", "Algolia"]
   email          = "oskar@oskar-roesler.de"
   stackoverflow  = "https://stackoverflow.com/users/10849666"
   github         = "https://github.com/bionade24"
-  reddit         = "https://reddit.com/user/bionade24"
   gitlab         = "https://gitlab.com/bionade24"
-  mastodon       = "https://mastodon.social/@bionade24"
-  git            = "https://git.oscloud.info/bionade24"
 
   #left side suggestions/links
   [[params.friend_link]]
-  title = "CJTRobotics"
-  href =  "https://cjtrobotics.de"
+  #title = "CJTRobotics"
+  #href =  "https://cjtrobotics.de"
 
   [[params.bookmark_link]]
-  title =  "CJTRobotics"
-  href =  "https://cjtrobotics.de"
+  #title =  "CJTRobotics"
+  #href =  "https://cjtrobotics.de"
 
   #Additional menus
   [[params.addtional_menus]]
